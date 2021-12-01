@@ -12,9 +12,6 @@ public class GameController : MonoBehaviour
 
     GameObject[] squareObjs;
 
-    // 選択されてる駒
-    public GameObject selectedPiece;
-
     const int EMPTY = 0; // 何もない
     const int PATH = 100; // 道
 
@@ -91,12 +88,17 @@ public class GameController : MonoBehaviour
         }
     }
 
+    // 道を光らせる場所を指定
     void OnPaths(int p, int x, int y)
     {
+        // 道オブジェクトを全取得
         foreach (GameObject square in squareObjs)
         {
+            // 一旦白に
             square.GetComponent<Renderer>().material.color = Color.white;
         }
+        
+        // 動かす
         MovePiece(x, y);
 
         //for文を利用して配列にアクセスする
@@ -111,6 +113,7 @@ public class GameController : MonoBehaviour
             }
         }
 
+        // クリック位置を保存しておく（移動する際に使用）
         posX = x;
         posY = y;
 
@@ -306,13 +309,17 @@ public class GameController : MonoBehaviour
         Debug.Log("you set " + p.name + " at " + "[" + x + "," + y + "]");
     }
 
+    // 道を光らせる
     int SetPath(int x, int y)
     {
+        // 指定された場所が盤面の中
         if (x <= 6 && x >= 0 &&
             y <= 6 && y >= 0 &&
-            squares[x, y] == EMPTY)
+            squares[x, y] == EMPTY) // かつ空白だった場合
         {
+            // 道にする
             squares[x, y] = 100;
+            // 指定したマスの色を赤に
             foreach (GameObject square in squareObjs)
             {
                 if (square.transform.position == new Vector3(x, y, 0))
@@ -327,6 +334,7 @@ public class GameController : MonoBehaviour
         return 0;
     }
 
+    // 配列デバッグ用
     void Debug2dArray()
     {
         string print_array = "";
