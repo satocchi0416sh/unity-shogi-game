@@ -14,6 +14,8 @@ public class GameController : MonoBehaviour
 
     GameObject[] squareObjs;
 
+    int selectedEnemy;
+
     const int EMPTY = 0; // 何もない
     const int PATH = -2; // 道
     const int ENEMY = -3;
@@ -91,6 +93,7 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            Debug2dArray();
             // カメラから光を飛ばす
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit2d = Physics2D.Raycast(ray.origin, ray.direction);
@@ -132,9 +135,13 @@ public class GameController : MonoBehaviour
         {
             for (int j = 0; j < 7; j++)
             {
-                if (squares[i, j] == PATH || squares[i,j] == ENEMY)
+                if (squares[i, j] == PATH)
                 {
                     squares[i, j] = EMPTY;
+                }
+                else if (squares[i,j] == ENEMY)
+                {
+                    squares[i, j] = selectedEnemy;
                 }
             }
         }
